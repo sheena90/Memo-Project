@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.sheena.memo.post.dao.PostDAO">
+  	<insert id="insertPost" parameterType="map">
+  		INSERT INTO `post`
+  		(
+  			`userId`
+  			, `subject`
+  			, `content`
+  			, `imagePath`
+  			, `createdAt`
+  			, `updatedAt`
+  		) VALUE
+  		(
+  			#{userId}
+  			, #{subject}
+  			, #{content}
+  			, #{filePath}
+  			, now()
+  			, now()	
+  		)	
+  	</insert>
+  	
+  	
+  	<select id="selectPostList" parameterType="int" resultType="com.sheena.memo.post.model.PostModel">
+  		SELECT
+  			`id`
+  			,`userId`
+  			, `subject`
+  			, `content`
+  			, `imagePath`
+  			, `createdAt`
+  			, `updatedAt`
+  		FROM
+  			`post`
+  		WHERE
+  			`userId` = #{userId}
+  		ORDER BY `id` DESC
+  	</select>
+  	
+  	
+  	<select id="selectPost" parameterType="int" resultType="com.sheena.memo.post.model.PostModel">
+  		SELECT
+  			`id`
+  			,`userId`
+  			, `subject`
+  			, `content`
+  			, `imagePath`
+  			, `createdAt`
+  			, `updatedAt`
+  		FROM
+  			`post`
+  		WHERE
+  			`id` = #{id}
+  	</select>
+  	
+  	
+  	<!-- 메모 수정 -->
+  	<update id="updatePost" parameterType="map">
+  		UPDATE 	`post`
+  		SET
+  			`subject` = #{subject}
+  			, `content` = #{content}
+  			, `updatedAt` = now()
+  		WHERE
+  			`id` = #{postId}
+  			AND `userId` = #{userId}
+  	</update>
+  	
+  	<!-- 메모 삭제 -->
+  	<delete id="deletePost" parameterType="int">
+  		DELETE FROM `post`
+  		WHERE
+  			`id` = #{postId}
+  			AND `userId` = #{userId}
+  	</delete>
+  
+  </mapper>
